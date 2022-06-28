@@ -1,9 +1,14 @@
+// import json web token
 const jwt = require('jsonwebtoken');
 
+// establish secret and session expiration
 const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
+// export signToken and auth functions for use
 module.exports = {
+    // function takes an object with username, email, and makes it 'payload'
+    // returns 
     signToken: function({ username, email, _id }) {
         const payload = { username, email, _id };
 
@@ -24,15 +29,15 @@ module.exports = {
     
         // if no token, return request object as is
         if (!token) {
-        return req;
+            return req;
         }
     
         try {
-        // decode and attach user data to request object
-        const { data } = jwt.verify(token, secret, { maxAge: expiration });
-        req.user = data;
+            // decode and attach user data to request object
+            const { data } = jwt.verify(token, secret, { maxAge: expiration });
+            req.user = data;
         } catch {
-        console.log('Invalid token');
+            console.log('Invalid token');
         }
     
         // return updated request object
